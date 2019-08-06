@@ -1,0 +1,24 @@
+version: '3.7'
+
+services:
+  docker-mysql:
+    image: mysql:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=mypassword
+      - MYSQL_DATABASE=onboarding
+      - MYSQL_PASSWORD=mypassword
+  app:
+    image: onboarding
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    depends_on:
+      - docker-mysql
+    ports:
+      - 8080:8080
+    environment:
+      - DATABASE_HOST=docker-mysql
+      - DATABASE_USER=root
+      - DATABASE_PASSWORD=mypassword
+      - DATABASE_NAME=onboarding
+      - DATABASE_PORT=3306
